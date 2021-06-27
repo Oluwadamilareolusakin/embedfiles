@@ -13,6 +13,7 @@ Add a `go generate` directive to your go binary `//go:generate embedfiles "see_f
 
 ##### First arg description
 The first argument to your command is the path where you want your newly generated package to live and be accessed from. Say I had a module called blog, which I want to embed files for. My folder structure may look something like:
+```
 .
 |––blog                          # Top-level module name
 ├── ...
@@ -26,8 +27,11 @@ The first argument to your command is the path where you want your newly generat
 ├── pageio                    # Handles storing and retrieving blog pages
 │   ├── pageio.go
 ├── ...
+```
 
 In this case, I may decide to add a subdirectory to `/blog/` named `statictemplates` as my new package name. Then my first argument may look like `../statictemplates/template.go`. My file structure then becomes:
+
+```
 blog                          # Top-level module name
 ├── ...
 ├── templates                 
@@ -45,6 +49,7 @@ blog                          # Top-level module name
 
 ##### Third arg description
 The third argument is the name of the package we mentioned above, in our case "statictemplates". This will ensure that our `tempate.go` file looks something like:
+```
 
 ```
 package statictemplates
