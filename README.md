@@ -56,6 +56,11 @@ package statictemplates
 ....
 ......
 ```
+Putting it together, my go generate directives may look like in `server.go`: 
+```
+//go:generate go get "github.com/oluwadamilareolusakin/embedfiles"
+//go:generate embedfiles "../statictemplates/template.go" "../templates" "statictemplates"
+```
 
 #### Running the generate command
 After you have completed all the steps above, you may run your generate command. In the root of your module, in our case `/blog/` you may run `$ go generate ./...`
