@@ -73,7 +73,7 @@ package statictemplates
 
 func init() {
 	vault.Add("/404.html", []byte{60, 104, 49, 62, 87, 104, 111, 111...})
-  ...
+  	...
 }
 
 type Vault struct {
