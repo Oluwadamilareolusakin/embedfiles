@@ -23,6 +23,14 @@ func init() {
   blobFileName = args[1]
   staticFolder = args[2]
   packageName = args[3]
+
+  if _, err := os.Stat(blobFileName); os.IsNotExist(err) {
+    pathComponents := strings.Split(blobFileName, "/")
+    finalPath := pathComponents[0:len(pathComponents) - 1]
+
+    directory := strings.Join(finalPath, "/")
+    os.Mkdir(directory, os.ModePerm)
+  }
 }
 
 type templateConfig struct {
