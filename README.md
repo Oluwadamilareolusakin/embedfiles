@@ -1,4 +1,4 @@
-# embedfiles
+# Embedfiles
 
 A simple go package that embeds static files in Go Binaries for packaging and easy release of software
 
@@ -14,8 +14,7 @@ Add a `go generate` directive to your go binary `//go:generate embedfiles "see_f
 ##### First arg description
 The first argument to your command is the path where you want your newly generated package to live and be accessed from. Say I had a module called blog, which I want to embed files for. My folder structure may look something like:
 ```
-.
-|––blog                          # Top-level module name
+blog                          # Top-level module name
 ├── ...
 ├── templates                 
 │   ├── index.html            # shows all blog posts
