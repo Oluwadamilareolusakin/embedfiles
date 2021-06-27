@@ -97,11 +97,9 @@ func Get(filename string) []byte {
 	return vault.GetFile(filename)
 }
 ```
-You can now use all the embedded files and the methods from the `statictemplates` package throughout your program
+You can now use all the embedded files and the methods from the `statictemplates` package throughout your program. Et Voila! You have generated a go binary that has your static files embedded as bytes 🎉
 
-# Et Voila! You have generated a go binary that has your static files embedded as bytes. 
-
-To use these files in your program, follow this steps:
+To use these files in your program, follow these steps:
 
 ## Add your new package to the imports of the files you wish to use your embedded files in
 
