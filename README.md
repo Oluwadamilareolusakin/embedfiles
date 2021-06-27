@@ -138,3 +138,5 @@ func renderTemplate(w http.ResponseWriter, title string, page *pageio.Page) {
 ```
 
 There you have it, you can now ship your apps without worrying about copying over static files and publishing them! Happy Tinkering! :🚀 
+
+If you have some feedback or suggestions, I'd love to hear them, you can shoot me a mail `projects@oluwadamilareolusakin.com` or find me on [Twitter](https://twitter.com/damiolusakin)
