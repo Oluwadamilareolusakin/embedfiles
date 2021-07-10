@@ -16,19 +16,22 @@ import (
 
 var args = os.Args
 
-var blobFileName *string
-var staticFolder *string
-var packageName *string
+var blobFileName string
+var staticFolder string
+var packageName string
 
 func init() {
-  blobFileName = flag.String("output", "", "output filename for generation")
-  staticFolder = flag.String("input", "", "input files to embed")
-  packageName = flag.String("packagename", "", "package name for the output file, usually the same as the package name where the embed files will be called from")
-  fmt.Println(blobFileName, packageName, staticFolder)
+  flag.StringVar(&blobFileName, "output", "", "output filename for generation")
+  flag.StringVar(&staticFolder, "input", "", "input files to embed")
+  flag.StringVar(&packageName, "packagename", "", "package name for the output file, usually the same as the package name where the embed files will be called from")
   flag.Parse()
 
-  if _, err := os.Stat(*blobFileName); os.IsNotExist(err) {
-    pathComponents := strings.Split(*blobFileName, "/")
+  fmt.Println("You are embedding static files from:", staticFolder)
+  fmt.Println("Your binary embed will be stored in:", blobFileName)
+  fmt.Println("Your resulting package name will be:", packageName)
+
+  if _, err := os.Stat(blobFileName); os.IsNotExist(err) {
+    pathComponents := strings.Split(blobFileName, "/")
     finalPath := pathComponents[0:len(pathComponents) - 1]
 
     directory := strings.Join(finalPath, "/")
@@ -91,14 +94,14 @@ func fmtSlice(s []byte) string {
 }
 
 func main() {
-  if _, err := os.Stat(*staticFolder); os.IsNotExist(err) {
+  if _, err := os.Stat(staticFolder); os.IsNotExist(err) {
     log.Fatal(fmt.Sprintf("The folder, %v, does not exist", staticFolder))
   }
 
   files := make(map[string][]byte)
 
-  filepath.Walk(*staticFolder, func(path string, info fs.FileInfo, err error) error {
-    relativeFilePath := filepath.ToSlash(strings.TrimPrefix(path, *staticFolder))
+  filepath.Walk(staticFolder, func(path string, info fs.FileInfo, err error) error {
+    relativeFilePath := filepath.ToSlash(strings.TrimPrefix(path, staticFolder))
 
     if info.IsDir() {
       fmt.Printf("Skipping directory, %v", path)
@@ -113,7 +116,7 @@ func main() {
     return err
   })
 
-  blobFile, err := os.Create(*blobFileName)
+  blobFile, err := os.Create(blobFileName)
 
   defer blobFile.Close()
   if err != nil {
@@ -121,7 +124,7 @@ func main() {
   }
 
   builder := &bytes.Buffer{}
-  config := &templateConfig{Files: files, PackageName: *packageName}
+  config := &templateConfig{Files: files, PackageName: packageName}
   if err := templateBuilder.Execute(builder, config); err != nil {
     log.Fatal(fmt.Sprintf("There was a problem generating the embeds: %v", err))
   }
@@ -129,7 +132,7 @@ func main() {
   if data, err := format.Source(builder.Bytes()); err != nil {
     log.Fatal(fmt.Sprintf("There was an error formating the generated file, %v", err))
   } else {
-    if err := ioutil.WriteFile(*blobFileName, data, os.ModePerm); err != nil {
+    if err := ioutil.WriteFile(blobFileName, data, os.ModePerm); err != nil {
       log.Fatal(fmt.Sprintf("There was a problem writing the blob file: %v", err))
     }
   }
