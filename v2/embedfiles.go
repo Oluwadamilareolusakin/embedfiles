@@ -24,7 +24,6 @@ func init() {
   blobFileName = flag.String("-output", "", "output filename for generation")
   staticFolder = flag.String("-input", "", "input files to embed")
   packageName = flag.String("-packagename", "", "package name for the output file, usually the same as the package name where the embed files will be called from")
-  flag.Parse()
 
   if _, err := os.Stat(*blobFileName); os.IsNotExist(err) {
     pathComponents := strings.Split(*blobFileName, "/")
@@ -90,6 +89,7 @@ func fmtSlice(s []byte) string {
 }
 
 func main() {
+  flag.Parse()
   if _, err := os.Stat(*staticFolder); os.IsNotExist(err) {
     log.Fatal(fmt.Sprintf("The folder, %v, does not exist", staticFolder))
   }
